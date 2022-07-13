@@ -58,12 +58,23 @@ public class ServiceListFragment extends Fragment {
         BleDevice bleDevice = ((OperationActivity) getActivity()).getBleDevice();
         String name = bleDevice.getName();
         String mac = bleDevice.getMac();
+
+        /**
+         * BLE连接都是建立在 GATT (Generic Attribute Profile) 协议之上。
+         * GATT 是一个在蓝牙连接之上的发送和接收很短的数据段的通用规范，这些很短的数据段被称为属性（Attribute）。
+         * 它定义两个 BLE 设备通过Service 和 Characteristic 进行通信。
+         * GATT 就是使用了 ATT（Attribute Protocol）协议，ATT 协议把 Service, Characteristic以及对应的数据保存在一个查找表中，次查找表使用 16 bit ID 作为每一项的索引。
+         *
+         * 通过BluetoothGatt对象作为连接桥梁，中心设备可以获取外围设备的很多信息，以及双向通信。
+         * */
         BluetoothGatt gatt = BleManager.getInstance().getBluetoothGatt(bleDevice);
 
         txt_name.setText(String.valueOf(getActivity().getString(R.string.name) + name));
         txt_mac.setText(String.valueOf(getActivity().getString(R.string.mac) + mac));
 
         mResultAdapter.clear();
+
+        // 获取这个蓝牙设备所拥有的Service和Characteristic。每一个属性都可以被定义作不同的用途，通过它们来进行协议通信。
         for (BluetoothGattService service : gatt.getServices()) {
             mResultAdapter.addResult(service);
         }

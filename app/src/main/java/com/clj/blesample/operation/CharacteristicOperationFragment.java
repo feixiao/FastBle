@@ -82,6 +82,8 @@ public class CharacteristicOperationFragment extends Fragment {
                     btn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+
+
                             BleManager.getInstance().read(
                                     bleDevice,
                                     characteristic.getService().getUuid().toString(),
@@ -90,6 +92,8 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                         @Override
                                         public void onReadSuccess(final byte[] data) {
+                                            // 读特征值数据成功
+
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -135,6 +139,8 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                         @Override
                                         public void onWriteSuccess(final int current, final int total, final byte[] justWrite) {
+                                            // 发送数据到设备成功（分包发送的情况下，可以通过方法中返回的参数可以查看发送进度）
+
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -147,6 +153,7 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                         @Override
                                         public void onWriteFailure(final BleException exception) {
+                                            // 发送数据到设备失败
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
@@ -217,6 +224,8 @@ public class CharacteristicOperationFragment extends Fragment {
                         public void onClick(View view) {
                             if (btn.getText().toString().equals(getActivity().getString(R.string.open_notification))) {
                                 btn.setText(getActivity().getString(R.string.close_notification));
+
+                                // 有两种方式可以接收通知，indicate和notify。indicate和notify的区别就在于，indicate是一定会收到数据，notify有可能会丢失数据。
                                 BleManager.getInstance().notify(
                                         bleDevice,
                                         characteristic.getService().getUuid().toString(),
@@ -275,6 +284,8 @@ public class CharacteristicOperationFragment extends Fragment {
                         public void onClick(View view) {
                             if (btn.getText().toString().equals(getActivity().getString(R.string.open_notification))) {
                                 btn.setText(getActivity().getString(R.string.close_notification));
+
+                                // 有两种方式可以接收通知，indicate和notify。indicate和notify的区别就在于，indicate是一定会收到数据，notify有可能会丢失数据。i
                                 BleManager.getInstance().indicate(
                                         bleDevice,
                                         characteristic.getService().getUuid().toString(),
@@ -283,6 +294,8 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                             @Override
                                             public void onIndicateSuccess() {
+                                                // 打开通知操作成功
+
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
@@ -293,6 +306,8 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                             @Override
                                             public void onIndicateFailure(final BleException exception) {
+
+                                                // 打开通知操作失败
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
@@ -303,6 +318,9 @@ public class CharacteristicOperationFragment extends Fragment {
 
                                             @Override
                                             public void onCharacteristicChanged(byte[] data) {
+
+                                                // 打开通知后，设备发过来的数据将在这里出现
+
                                                 runOnUiThread(new Runnable() {
                                                     @Override
                                                     public void run() {
