@@ -20,6 +20,7 @@ import java.util.List;
 public class DeviceAdapter extends BaseAdapter {
 
     private final Context context;
+
     private final List<BleDevice> bleDeviceList = new ArrayList<>();
 
     public DeviceAdapter(Context context) {
@@ -124,6 +125,7 @@ public class DeviceAdapter extends BaseAdapter {
             }
         }
 
+        // 处理连接等操作
         holder.btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
