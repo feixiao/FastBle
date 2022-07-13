@@ -215,6 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         boolean isAutoConnect = sw_auto.isChecked();
 
+        // 配置扫描规则
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
                 .setServiceUuids(serviceUuids)      // 只扫描指定的服务的设备，可选
                 .setDeviceName(true, names)   // 只扫描指定广播名的设备，可选
@@ -226,7 +227,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void startScan() {
+
+        // 开始进行扫描
         BleManager.getInstance().scan(new BleScanCallback() {
+
+            // 会回到主线程，参数表示本次扫描动作是否开启成功。
             @Override
             public void onScanStarted(boolean success) {
                 mDeviceAdapter.clearScanDevice();
@@ -236,17 +241,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 btn_scan.setText(getString(R.string.stop_scan));
             }
 
+
+            /*
+             * 扫描过程中所有被扫描到的结果回调。
+             * 由于扫描及过滤的过程是在工作线程中的，此方法也处于工作线程中。
+             * 同一个设备会在不同的时间，携带自身不同的状态（比如信号强度等），出现在这个回调方法中，出现次数取决于周围的设备量及外围设备的广播间隔。
+            */
             @Override
             public void onLeScan(BleDevice bleDevice) {
                 super.onLeScan(bleDevice);
             }
 
+            /*
+            * 扫描过程中的所有过滤后的结果回调。
+            * 与onLeScan区别之处在于：
+            *   它会回到主线程；
+            *   同一个设备只会出现一次；
+            *   出现的设备是经过扫描过滤规则过滤后的设备。
+            * */
             @Override
             public void onScanning(BleDevice bleDevice) {
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
             }
 
+
+            /*
+             * 本次扫描时段内所有被扫描且过滤后的设备集合。它会回到主线程，相当于onScanning设备之和。
+             * */
             @Override
             public void onScanFinished(List<BleDevice> scanResultList) {
                 img_loading.clearAnimation();
@@ -392,7 +414,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .setCancelable(false)
                             .show();
                 } else {
+
+                    // 获取权限以后调用
+
+                    // 设置扫描规则
                     setScanRule();
+
+                    //
                     startScan();
                 }
                 break;
