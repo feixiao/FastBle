@@ -215,6 +215,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         boolean isAutoConnect = sw_auto.isChecked();
 
+
+        if(names == null) {
+            names = new String[]{"LEDBLE-01-000B"};
+        }
+
         // 配置扫描规则
         BleScanRuleConfig scanRuleConfig = new BleScanRuleConfig.Builder()
                 .setServiceUuids(serviceUuids)      // 只扫描指定的服务的设备，可选
@@ -261,6 +266,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             * */
             @Override
             public void onScanning(BleDevice bleDevice) {
+
+                // 添加扫描到的设备
                 mDeviceAdapter.addDevice(bleDevice);
                 mDeviceAdapter.notifyDataSetChanged();
             }
