@@ -280,11 +280,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void connect(final BleDevice bleDevice) {
         BleManager.getInstance().connect(bleDevice, new BleGattCallback() {
+
+            /**
+             * 开始进行连接。
+             * */
             @Override
             public void onStartConnect() {
                 progressDialog.show();
             }
 
+
+            /**
+             * 连接不成功。
+             * */
             @Override
             public void onConnectFail(BleDevice bleDevice, BleException exception) {
                 img_loading.clearAnimation();
@@ -294,6 +302,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, getString(R.string.connect_fail), Toast.LENGTH_LONG).show();
             }
 
+
+            /**
+             * 连接成功并发现服务。
+             * */
             @Override
             public void onConnectSuccess(BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
@@ -301,6 +313,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mDeviceAdapter.notifyDataSetChanged();
             }
 
+
+            /**
+             * 连接断开，特指连接后再断开的情况。
+             * 在这里可以监控设备的连接状态，一旦连接断开，可以根据自身情况考虑对BleDevice对象进行重连操作。
+             * 需要注意的是，断开和重连之间最好间隔一段时间，否则可能会出现长时间连接不上的情况。
+             * 此外，如果通过调用disconnect(BleDevice bleDevice)方法，主动断开蓝牙连接的结果也会在这个方法中回调，此时isActiveDisConnected将会是true。
+             * */
             @Override
             public void onDisConnected(boolean isActiveDisConnected, BleDevice bleDevice, BluetoothGatt gatt, int status) {
                 progressDialog.dismiss();
