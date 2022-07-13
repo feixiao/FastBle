@@ -1,8 +1,3 @@
-![效果图](https://github.com/Jasonchenlijian/FastBle/raw/master/preview/fastble_poster.png)
-
-Thanks to the logo designed by [anharismail](https://github.com/anharismail)
-
-
 # FastBle
 Android Bluetooth Low Energy
 
@@ -12,19 +7,6 @@ Android Bluetooth Low Energy
 - Support multi device connections  
 - Support reconnection  
 - Support configuration timeout for conncet or operation  
-
-
-### Preview
-![Preview_1](https://github.com/Jasonchenlijian/FastBle/raw/master/preview/new_1.png) 
-![Preview_2](https://github.com/Jasonchenlijian/FastBle/raw/master/preview/new_2.png) 
-![Preview_3](https://github.com/Jasonchenlijian/FastBle/raw/master/preview/new_3.png)
-![Preview_4](https://github.com/Jasonchenlijian/FastBle/raw/master/preview/new_4.png)
-
-
-### APK
-If you want to quickly preview all the functions, you can download APK as a test tool directly.
-
- [FastBLE.apk](https://github.com/Jasonchenlijian/FastBle/raw/master/FastBLE.apk) 
 
 
 ### Gradle
@@ -44,11 +26,6 @@ If you want to quickly preview all the functions, you can download APK as a test
         dependencies {
             implementation 'com.github.Jasonchenlijian:FastBle:2.4.0'
         }
-    
-### Jar
-
-[FastBLE-2.4.0.jar](https://github.com/Jasonchenlijian/FastBle/raw/master/FastBLE-2.4.0.jar)
-
 
 ## Wiki
 
